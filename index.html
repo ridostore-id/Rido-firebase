@@ -171,28 +171,38 @@
 
             <form id="login-form" class="space-y-4">
                 <div>
-                    <label class="block text-xs text-gray-400 mb-1.5 font-medium">PIN / Kata Sandi Admin</label>
+                    <label class="block text-xs text-gray-400 mb-1.5 font-medium">Email</label>
+                    <input type="email" id="login-email-input" required autocomplete="username" placeholder="nama@email.com"
+                        class="w-full bg-rido-bg border border-rido-border focus:border-rido-cyan rounded-xl px-4 py-3.5 text-sm text-white placeholder-gray-500 outline-none transition-all">
+                </div>
+                <div>
+                    <label class="block text-xs text-gray-400 mb-1.5 font-medium">Kata Sandi</label>
                     <div class="relative">
-                        <input type="password" id="login-pin-input" required placeholder="Masukkan PIN atau Sandi..." 
+                        <input type="password" id="login-pin-input" required autocomplete="current-password" placeholder="Masukkan kata sandi..."
                             class="w-full bg-rido-bg border border-rido-border focus:border-rido-cyan rounded-xl px-4 py-3.5 text-sm text-white placeholder-gray-500 outline-none transition-all pr-11">
                         <button type="button" id="toggle-pin-visibility" class="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white p-1">
                             <i class="fa-regular fa-eye"></i>
                         </button>
                     </div>
-                    <p id="login-error-msg" class="text-xs text-red-400 mt-2 hidden"><i class="fa-solid fa-circle-exclamation mr-1"></i>PIN atau kata sandi salah!</p>
+                    <p id="login-error-msg" class="text-xs text-red-400 mt-2 hidden"></p>
                 </div>
 
-                <button type="submit" class="w-full rido-btn-gradient text-white font-semibold py-3.5 rounded-xl shadow-lg shadow-rido-blue/25 hover:opacity-95 transition-all flex items-center justify-center gap-2 text-sm">
+                <div class="flex items-center justify-between">
+                    <label class="flex items-center gap-2 text-xs text-gray-300 cursor-pointer select-none">
+                        <input type="checkbox" id="login-remember" checked class="w-4 h-4 accent-cyan-400">
+                        <span>Ingat saya</span>
+                    </label>
+                    <button type="button" id="forgot-password-btn" class="text-xs text-rido-cyan hover:underline">Lupa password?</button>
+                </div>
+
+                <button type="submit" id="login-submit-btn" class="w-full rido-btn-gradient text-white font-semibold py-3.5 rounded-xl shadow-lg shadow-rido-blue/25 hover:opacity-95 transition-all flex items-center justify-center gap-2 text-sm">
                     <i class="fa-solid fa-unlock-keyhole"></i>
-                    <span>Buka Aplikasi Rido Store</span>
+                    <span id="login-submit-label">Masuk</span>
                 </button>
             </form>
 
             <div class="mt-5 pt-4 border-t border-rido-border/60 text-center">
-                <p class="text-[11px] text-gray-400 leading-relaxed">
-                    PIN Default Uji Coba: <span class="text-rido-cyan font-mono font-semibold bg-rido-bg px-2 py-0.5 rounded">123456</span> atau <span class="text-rido-cyan font-mono font-semibold bg-rido-bg px-2 py-0.5 rounded">admin</span><br>
-                    <span class="text-gray-500">(Dapat diubah kapan saja di menu Pengaturan)</span>
-                </p>
+                <p class="text-[11px] text-gray-500 leading-relaxed">Akun dibuat oleh owner. Hubungi owner jika belum punya akses.</p>
             </div>
         </div>
     </div>
@@ -247,8 +257,8 @@
                         <i class="fa-solid fa-plus"></i>
                         <span>Transaksi Baru</span>
                     </button>
-                    <button onclick="lockApp()" title="Kunci Aplikasi" class="w-9 h-9 rounded-xl bg-rido-surface hover:bg-red-500/20 text-gray-300 hover:text-red-400 border border-rido-border flex items-center justify-center transition-colors">
-                        <i class="fa-solid fa-lock text-xs"></i>
+                    <button onclick="lockApp()" title="Keluar" class="w-9 h-9 rounded-xl bg-rido-surface hover:bg-red-500/20 text-gray-300 hover:text-red-400 border border-rido-border flex items-center justify-center transition-colors">
+                        <i class="fa-solid fa-right-from-bracket text-xs"></i>
                     </button>
                 </div>
             </div>
@@ -748,19 +758,19 @@
                         </div>
                     </div>
 
-                    <!-- Change Admin PIN -->
+                    <!-- Akun -->
                     <div class="bg-rido-card border border-rido-border rounded-2xl p-4 space-y-3">
                         <h3 class="text-sm font-bold text-white flex items-center gap-2">
-                            <i class="fa-solid fa-key text-amber-400"></i>
-                            <span>Ubah PIN / Sandi Login Admin</span>
+                            <i class="fa-solid fa-user-shield text-amber-400"></i>
+                            <span>Akun Admin</span>
                         </h3>
-                        <form id="change-pin-form" onsubmit="handleChangePin(event)" class="space-y-2.5">
-                            <input type="password" id="new-pin-input" required minlength="4" placeholder="Masukkan PIN / Sandi Baru (Min. 4 karakter)" 
-                                class="w-full bg-rido-bg border border-rido-border focus:border-rido-cyan rounded-xl px-3 py-2 text-xs text-white outline-none">
-                            <button type="submit" class="w-full rido-btn-gradient text-white font-semibold py-2.5 rounded-xl text-xs shadow">
-                                Simpan PIN Baru
-                            </button>
-                        </form>
+                        <p class="text-xs text-gray-400">Masuk sebagai: <span id="account-email" class="text-white font-medium break-all">-</span></p>
+                        <button type="button" onclick="handleChangePassword()" class="w-full rido-btn-gradient text-white font-semibold py-2.5 rounded-xl text-xs shadow">
+                            Kirim Email Ubah Password
+                        </button>
+                        <button type="button" onclick="lockApp()" class="w-full bg-rido-bg hover:bg-red-500/20 border border-rido-border text-xs py-2.5 rounded-xl text-gray-300 hover:text-red-400">
+                            Keluar
+                        </button>
                     </div>
                 </div>
 
@@ -890,7 +900,7 @@
     <script type="module">
         // Firebase Cloud Imports (Optional Hybrid Cloud Sync if environment provides __firebase_config)
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getAuth, signInWithEmailAndPassword, signOut, sendPasswordResetEmail, setPersistence, browserLocalPersistence, browserSessionPersistence, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, collection, doc, setDoc, deleteDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         // ---------------- STATE & CONSTANTS ----------------
@@ -904,7 +914,7 @@
         let activeRecapMode = 'daily';
         let dashboardChartInstance = null;
         let pendingSoldTrxId = null;
-        let adminPin = '123456';
+        let cloudUnsub = null;
 
         // Cloud Sync variables
         let db = null;
@@ -1025,42 +1035,86 @@
         }
 
         // ---------------- CLOUD SYNC (FIRESTORE) + LOCAL HYBRID ----------------
-        async function initCloudSync() {
-            try {
-                if (typeof __firebase_config !== 'undefined' && __firebase_config) {
-                    const firebaseConfig = JSON.parse(__firebase_config);
-                    const app = initializeApp(firebaseConfig);
-                    auth = getAuth(app);
-                    db = getFirestore(app);
+        function showLoginError(text) {
+            const el = document.getElementById('login-error-msg');
+            el.innerHTML = '<i class="fa-solid fa-circle-exclamation mr-1"></i>' + text;
+            el.classList.remove('hidden');
+        }
 
-                    if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-                        await signInWithCustomToken(auth, __initial_auth_token);
-                    } else {
-                        await signInAnonymously(auth);
+        function setLoginBusy(busy, label) {
+            const btn = document.getElementById('login-submit-btn');
+            btn.disabled = busy;
+            btn.classList.toggle('opacity-60', busy);
+            document.getElementById('login-submit-label').textContent = busy ? (label || 'Memeriksa...') : 'Masuk';
+        }
+
+        function authErrorText(err) {
+            switch (err && err.code) {
+                case 'auth/invalid-credential':
+                case 'auth/wrong-password':
+                case 'auth/user-not-found': return 'Email atau kata sandi salah!';
+                case 'auth/invalid-email': return 'Format email tidak valid!';
+                case 'auth/missing-password': return 'Kata sandi belum diisi!';
+                case 'auth/too-many-requests': return 'Terlalu banyak percobaan. Coba lagi beberapa saat.';
+                case 'auth/network-request-failed': return 'Tidak ada koneksi internet.';
+                case 'auth/user-disabled': return 'Akun ini dinonaktifkan.';
+                case 'auth/operation-not-allowed': return 'Login Email/Password belum diaktifkan di Firebase Console.';
+                default: return 'Gagal masuk' + (err && err.code ? ' (' + err.code + ')' : '') + '.';
+            }
+        }
+
+        async function initCloudSync() {
+            setLoginBusy(true, 'Memeriksa sesi...');
+            try {
+                if (typeof __firebase_config === 'undefined' || !__firebase_config) {
+                    throw new Error('Firebase belum dikonfigurasi');
+                }
+                const firebaseConfig = JSON.parse(__firebase_config);
+                const app = initializeApp(firebaseConfig);
+                auth = getAuth(app);
+                db = getFirestore(app);
+
+                onAuthStateChanged(auth, (user) => {
+                    currentUser = user;
+                    setLoginBusy(false);
+                    if (cloudUnsub) { cloudUnsub(); cloudUnsub = null; }
+
+                    if (!user) {
+                        isCloudActive = false;
+                        document.getElementById('login-screen').classList.remove('hidden');
+                        return;
                     }
 
-                    onAuthStateChanged(auth, (user) => {
-                        currentUser = user;
-                        if (user) {
-                            isCloudActive = true;
-                            updateStorageIndicator('Lokal & Cloud');
-                            const colRef = collection(db, 'artifacts', appId, 'users', user.uid, 'rido_transactions');
-                            onSnapshot(colRef, async (snap) => {
-                                if (!snap.empty) {
-                                    const cloudData = [];
-                                    snap.forEach(d => cloudData.push(d.data()));
-                                    transactions = cloudData.sort((a, b) => new Date(b.date) - new Date(a.date));
-                                    await saveAllToLocalDB(transactions);
-                                    refreshAllViews();
-                                }
-                            }, (err) => {
-                                console.warn('Cloud listener warning:', err);
-                            });
+                    isCloudActive = true;
+                    document.getElementById('login-screen').classList.add('hidden');
+                    document.getElementById('account-email').textContent = user.email || '-';
+                    updateStorageIndicator('Lokal & Cloud');
+                    refreshAllViews();
+
+                    const colRef = collection(db, 'artifacts', appId, 'users', user.uid, 'rido_transactions');
+                    cloudUnsub = onSnapshot(colRef, async (snap) => {
+                        if (!snap.empty) {
+                            const cloudData = [];
+                            snap.forEach(d => cloudData.push(d.data()));
+                            transactions = cloudData.sort((a, b) => new Date(b.date) - new Date(a.date));
+                            await saveAllToLocalDB(transactions);
+                            refreshAllViews();
+                        } else if (!snap.metadata.fromCache && transactions.length) {
+                            // Cloud akun ini masih kosong: unggah data lokal yang sudah ada
+                            for (const t of transactions) {
+                                try {
+                                    await setDoc(doc(db, 'artifacts', appId, 'users', user.uid, 'rido_transactions', t.id), t);
+                                } catch (e) { console.warn('Upload data lokal gagal:', e); }
+                            }
                         }
+                    }, (err) => {
+                        console.warn('Cloud listener warning:', err);
                     });
-                }
+                });
             } catch (err) {
-                console.warn('Running in standalone local persistence mode:', err);
+                console.warn('Firebase tidak aktif:', err);
+                setLoginBusy(false);
+                showLoginError('Firebase belum aktif. Periksa firebase-config.js dan koneksi internet.');
             }
         }
 
@@ -1191,10 +1245,6 @@
             // Set default date on form to today
             document.getElementById('trx-date').value = new Date().toISOString().split('T')[0];
 
-            // Load saved PIN
-            const savedPin = await loadConfigDB('adminPin');
-            if (savedPin) adminPin = savedPin;
-
             // Load saved custom logo if any
             const savedLogo = await loadConfigDB('customLogo');
             if (savedLogo) applyCustomLogoToDOM(savedLogo);
@@ -1283,37 +1333,58 @@
             }
         });
 
-        document.getElementById('login-form').addEventListener('submit', (e) => {
+        document.getElementById('login-form').addEventListener('submit', async (e) => {
             e.preventDefault();
-            const val = document.getElementById('login-pin-input').value.trim();
-            const errEl = document.getElementById('login-error-msg');
-            if (val === adminPin || (adminPin === '123456' && val.toLowerCase() === 'admin')) {
-                errEl.classList.add('hidden');
-                document.getElementById('login-screen').classList.add('hidden');
+            if (!auth) { showLoginError('Firebase belum aktif. Periksa firebase-config.js.'); return; }
+            const email = document.getElementById('login-email-input').value.trim();
+            const pass = document.getElementById('login-pin-input').value;
+            const remember = document.getElementById('login-remember').checked;
+            document.getElementById('login-error-msg').classList.add('hidden');
+            setLoginBusy(true, 'Memeriksa...');
+            try {
+                await setPersistence(auth, remember ? browserLocalPersistence : browserSessionPersistence);
+                await signInWithEmailAndPassword(auth, email, pass);
                 document.getElementById('login-pin-input').value = '';
                 showToast('Selamat datang di Rido Store!', 'success');
-                refreshAllViews();
-            } else {
-                errEl.classList.remove('hidden');
+            } catch (err) {
+                showLoginError(authErrorText(err));
+            } finally {
+                setLoginBusy(false);
             }
         });
 
-        window.lockApp = function() {
-            document.getElementById('login-screen').classList.remove('hidden');
-            showToast('Aplikasi dikunci.', 'info');
+        document.getElementById('forgot-password-btn').addEventListener('click', async () => {
+            const email = document.getElementById('login-email-input').value.trim();
+            if (!auth) { showLoginError('Firebase belum aktif.'); return; }
+            if (!email) { showLoginError('Isi email dulu, lalu ketuk "Lupa password?".'); return; }
+            try {
+                await sendPasswordResetEmail(auth, email);
+                document.getElementById('login-error-msg').classList.add('hidden');
+                showToast('Jika email terdaftar, tautan reset password sudah dikirim.', 'success');
+            } catch (err) {
+                showLoginError(authErrorText(err));
+            }
+        });
+
+        window.lockApp = async function() {
+            if (!auth) return;
+            try {
+                await signOut(auth);
+                document.getElementById('login-pin-input').value = '';
+                showToast('Anda telah keluar.', 'info');
+            } catch (err) {
+                showToast('Gagal keluar, coba lagi.', 'error');
+            }
         };
 
-        window.handleChangePin = async function(e) {
-            e.preventDefault();
-            const newPin = document.getElementById('new-pin-input').value.trim();
-            if (newPin.length < 4) {
-                showToast('PIN minimal 4 karakter!', 'error');
-                return;
+        window.handleChangePassword = async function() {
+            if (!auth || !currentUser || !currentUser.email) return;
+            try {
+                await sendPasswordResetEmail(auth, currentUser.email);
+                showToast('Tautan ubah password dikirim ke ' + currentUser.email, 'success');
+            } catch (err) {
+                showToast('Gagal mengirim email: ' + (err.code || 'coba lagi'), 'error');
             }
-            adminPin = newPin;
-            await saveConfigDB('adminPin', newPin);
-            document.getElementById('new-pin-input').value = '';
-            showToast('PIN / Sandi Admin berhasil diperbarui!', 'success');
         };
 
         // ---------------- NAVIGATION ----------------
